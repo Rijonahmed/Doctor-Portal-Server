@@ -48,6 +48,7 @@ async function run() {
     const appointmentOptionCollection = client.db('doctor').collection('appointmentOption');
     const bookingsCollection = client.db('doctor').collection('bookings');
     const usersCollection = client.db('doctor').collection('users');
+    const doctorsCollection = client.db('doctor').collection('doctors');
 
 
     app.get('/appointmentOptions', async (req, res) => {
@@ -74,6 +75,12 @@ async function run() {
       const query = { _id: new ObjectId(id) };
       const option = await appointmentOptionCollection.findOne(query);
       res.send(option);
+    });
+
+    app.get('/appointmentSpecialty', async (req, res) => {
+      const query = {};
+      const result = await appointmentOptionCollection.find(query).project({ name: 1 }).toArray();
+      res.send(result);
     });
 
     app.get('/booking', verifyJWT, async (req, res) => {
@@ -132,7 +139,7 @@ async function run() {
 
     app.post('/users', async (req, res) => {
       const user = req.body;
-      console.log(user)
+
       const result = await usersCollection.insertOne(user);
       res.send(result);
     })
@@ -172,6 +179,19 @@ async function run() {
 
       res.status(403).send({ accessToken: '' });
     })
+
+    app.post('/doctors', async (req, res) => {
+      const doctor = req.body;
+      const result = await doctorsCollection.insertOne(doctor);
+      res.send(result);
+    })
+
+    app.get('/doctors', async (req, res) => {
+      const query = {};
+      const cursor = doctorsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
 
   }
