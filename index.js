@@ -136,7 +136,7 @@ async function run() {
 
 
 
-    app.get('/booking', async (req, res) => {
+    app.get('/bookings', verifyJWT, verifyAdmin, async (req, res) => {
       const query = {};
       const cursor = bookingsCollection.find(query);
       const result = await cursor.toArray();
