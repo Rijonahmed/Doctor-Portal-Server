@@ -135,6 +135,13 @@ async function run() {
 
 
 
+    app.delete('/bookings/:id', verifyJWT, verifyAdmin, async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const result = await bookingsCollection.deleteOne(filter);
+      res.send(result);
+    })
+
 
     app.get('/bookings', verifyJWT, verifyAdmin, async (req, res) => {
       const query = {};
