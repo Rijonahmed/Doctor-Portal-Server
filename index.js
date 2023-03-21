@@ -108,12 +108,12 @@ async function run() {
       res.send(bookings);
     })
 
-    app.get('/booking/:id', async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const booking = await bookingsCollection.findOne(query);
-      res.send(booking);
-    });
+    // app.get('/booking/:id', async (req, res) => {
+    //   const id = req.params.id;
+    //   const query = { _id: new ObjectId(id) };
+    //   const booking = await bookingsCollection.findOne(query);
+    //   res.send(booking);
+    // });
 
     app.post('/booking', async (req, res) => {
       const booking = req.body;
@@ -132,7 +132,6 @@ async function run() {
       const result = await bookingsCollection.insertOne(booking);
       res.send(result);
     });
-
 
 
     app.delete('/bookings/:id', verifyJWT, verifyAdmin, async (req, res) => {
